@@ -8,14 +8,15 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
 
     // list of files/patterns to load in the browser
-    files: [{ pattern: 'spec.bundle.js', watched: false }],
+    files: [
+       { pattern: 'node_modules/angular/angular.js', watched: false },
+      { pattern: 'spec.bundle.js', watched: false }
+      ],
 
     // files to exclude
     exclude: [],
 
       plugins: [
-      //require("karma-chai"),
-      // require("karma-mocha"),
       require("karma-spec-reporter"),
       require("jasmine-core"),
       require("karma-jasmine"),
@@ -45,7 +46,7 @@ module.exports = function (config) {
     },
 
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'spec'],
 
     // web server port
     port: 9876,
@@ -58,13 +59,13 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
 
     // toggle whether to watch files and rerun tests upon incurring changes
-    autoWatch: false,
+    autoWatch: true,
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Chrome'],
 
     // if true, Karma runs tests once and exits
-    singleRun: true
+    singleRun: false
   });
 };

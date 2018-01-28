@@ -3,7 +3,9 @@ import controller from './home.controller';
 import './home.scss';
 
 let homeComponent = {
-  bindings: {},
+  bindings: {
+    homeData : '<'
+  },
   template: template,
   controller: controller
 };

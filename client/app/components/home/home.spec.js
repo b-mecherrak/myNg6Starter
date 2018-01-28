@@ -1,10 +1,9 @@
+import 'angular-mocks'
 import HomeModule from './home'
-
-describe('Home', () => {
+fdescribe('Home', () => {
   let $rootScope, $state, $location, $componentController, $compile;
-  let $filter ; 
-
-  beforeEach(window.module(HomeModule));
+  let $filter;
+  beforeEach(angular.mock.module(HomeModule));
 
   beforeEach(inject(($injector) => {
     $rootScope = $injector.get('$rootScope');
@@ -32,11 +31,6 @@ describe('Home', () => {
         $scope: $rootScope.$new()
       });
     });
-
-    it('has a name property', () => { 
-      // erase if removing this.name from the controller
-      // expect(controller).to.have.property('name');
-    });
   });
 
   describe('View', () => {
@@ -54,4 +48,75 @@ describe('Home', () => {
     });
 
   });
+
+  fdescribe('Html Element', () => {
+    // view layer specs.
+    let scope, element;
+
+    beforeEach(() => {
+      scope = $rootScope.$new();
+      
+      element = angular.element('<home></home>');
+     
+      scope.$apply(() => { 
+       scope.user = { name: "John" }; 
+       $compile(element)(scope); 
+      });
+    });
+
+    it('should be defined', () => {
+        expect(element).toBeDefined()
+        const ctrl = element.controller('home')
+        console.log(ctrl)
+        expect(ctrl).toBeDefined()
+    })
+  });
+
+  describe('getData', () => {
+    let $componentController
+    let $rootScope
+    let UtilService
+    let $q
+    beforeEach(inject((_$componentController_, _$rootScope_, _$q_, _UtilService_) => {
+      $rootScope = _$rootScope_
+      $componentController = _$componentController_
+      $q = _$q_
+      UtilService = _UtilService_
+    }))
+    it('should  get mocked user ', () => {
+      const $scope = $rootScope.$new()
+
+      let deferred = $q.defer();
+      spyOn(UtilService, 'getUser').and.returnValue(deferred.promise)
+
+      const $ctrl = $componentController('home', { $scope: $scope, UtilService: UtilService }, {})
+      $ctrl.$onInit()
+
+      $ctrl.getData()
+
+      deferred.resolve({
+        data: {
+          username: 'bendal',
+          level: 5
+        }
+      })
+      $scope.$apply()
+
+      expect($ctrl.user).toEqual({ username: 'bendal', level: 5 })
+    })
+
+    it('should  return user 2 ', () => {
+      const $scope = new $rootScope.$new()
+      const $ctrl = $componentController('home', { $scope: $scope }, {})
+      $ctrl.$onInit()
+      let then = jasmine.createSpy('then')
+
+      spyOn($ctrl.UtilService, 'getUser').and.returnValue({
+        then: then
+      })
+
+      $ctrl.getData()
+      expect(then).toHaveBeenCalled()
+    })
+  })
 });

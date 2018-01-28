@@ -1,5 +1,5 @@
 {
-  "name": "ng6-starter",
+  "name": "ng6CustomStarter",
   "version": "0.0.1",
   "description": "Starter for Angular + ES6 + (Webpack)",
   "main": "index.js",
@@ -67,13 +67,11 @@
   "keywords": [
     "angular",
     "webpack",
-    "es6"
+    "es6",
+    "jasmine",
+    "karma"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/angularclass/NG6-starter.git"
-  },
-  "author": "AngularClass",
+  "author": "VM",
   "license": "Apache-2.0",
   "babel": {
     "plugins": [
